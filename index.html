@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>برزنتيشن: عالم تطوير الويب</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+      color: #1f2937;
+      overflow-x: hidden;
+    }
+    .slide {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2.5rem;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.97);
+      margin: 1.5rem auto;
+      max-width: 95%;
+      border-radius: 1rem;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .slide::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      opacity: 0.3;
+      z-index: -1;
+    }
+    #slide1::before { background-image: url('https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg?auto=compress&cs=tinysrgb&w=800'); }
+    #slide2::before { background-image: url('https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=800'); }
+    #slide3::before { background-image: url('https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=800'); }
+    #slide4::before { background-image: url('https://images.pexels.com/photos/1181359/pexels-photo-1181359.jpeg?auto=compress&cs=tinysrgb&w=800'); }
+    #slide5::before { background-image: url('https://images.pexels.com/photos/1595385/pexels-photo-1595385.jpeg?auto=compress&cs=tinysrgb&w=800'); }
+    #slide6::before { background-image: url('https://images.pexels.com/photos/3184297/pexels-photo-3184297.jpeg?auto=compress&cs=tinysrgb&w=800'); }
+    #slide7::before { background-image: url('https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=800'); }
+    #slide8::before { background-image: url('https://images.pexels.com/photos/3184296/pexels-photo-3184296.jpeg?auto=compress&cs=tinysrgb&w=800'); }
+    .slide.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    h1 {
+      color: #1e40af;
+      animation: fadeInText 1s ease;
+    }
+    h2 {
+      color: #1e40af;
+      animation: fadeInText 1s ease;
+    }
+    p, ul {
+      animation: slideUp 1s ease;
+      line-height: 1.8;
+    }
+    @keyframes fadeInText {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .cta-button {
+      background: linear-gradient(90deg, #2563eb, #60a5fa);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .cta-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+    .interactive-question {
+      cursor: pointer;
+      transition: background 0.3s ease;
+      position: relative;
+    }
+    .interactive-question:hover {
+      background: #e0f2fe;
+    }
+    .answer-modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 2.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+      max-width: 90%;
+      text-align: center;
+    }
+    .answer-modal.show {
+      display: block;
+    }
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+    }
+    .modal-overlay.show {
+      display: block;
+    }
+    img {
+      max-width: 100%;
+      width: 100%;
+      height: auto;
+      max-height: 40vh;
+      border-radius: 0.75rem;
+      margin-top: 1.5rem;
+      object-fit: cover;
+    }
+    @media (max-width: 768px) {
+      .slide {
+        padding: 2rem;
+        margin: 1rem;
+        min-height: 80vh;
+      }
+      h1 {
+        font-size: 3.5rem;
+      }
+      h2 {
+        font-size: 3rem;
+      }
+      p, ul, li {
+        font-size: 1.25rem;
+      }
+      .cta-button {
+        padding: 0.75rem 2rem;
+        font-size: 1.25rem;
+      }
+      img {
+        max-height: 30vh;
+      }
+      .answer-modal {
+        padding: 2rem;
+        max-width: 95%;
+      }
+      .answer-modal p {
+        font-size: 1.25rem;
+      }
+    }
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+      h2 {
+        font-size: 2.25rem;
+      }
+      p, ul, li {
+        font-size: 1.1rem;
+      }
+      .interactive-question {
+        padding: 1rem;
+      }
+      .answer-modal {
+        padding: 1.5rem;
+      }
+      .answer-modal p {
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Slide 1: Welcome -->
+  <section class="slide" id="slide1">
+    <h1 class="text-7xl font-bold mb-6">يا أهلًا بتيم التخرج!</h1>
+    <p class="text-4xl text-gray-800 mb-4">جاهزين ندخل عالم تطوير الويب؟</p>
+    <p class="text-2xl text-gray-800 mb-4">هنشرح النهاردة إزاي تبنوا موقع ويب من الصفر، خطوة بخطوة، مع نصايح لمشروعكم!</p>
+    <p class="text-xl text-gray-800 mb-4">إعداد: مهندس برمجة زي الفل</p>
+    <p class="text-xl text-gray-800 mb-4">المهندس عبدالحميد ابراهيم</p>
+    <img src="https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=800" alt="فريق شباب بيشتغل على البرمجة" loading="lazy">
+  </section>
+
+  <!-- Slide 2: What is Web Development? -->
+  <section class="slide" id="slide2">
+    <h2 class="text-6xl font-bold mb-6">تطوير الويب يعني إيه؟</h2>
+    <p class="text-2xl text-gray-800 mb-4">يعني إنك تبني مواقع زي نون أو يوتيوب، من الشكل الحلو للبرمجة اللي بتخلّيها تشتغل!</p>
+    <ul class="text-2xl text-gray-800 list-disc list-inside mb-4">
+      <li><strong>الفرونت إند:</strong> الشكل اللي بتشوفه، زي الأزرار والصور.</li>
+      <li><strong>البك إند:</strong> اللي بيخلّي الموقع يشتغل، زي حفظ بياناتك.</li>
+      <li><strong>الأمان:</strong> عشان الموقع يبقى زي الحصن من الهكرز.</li>
+      <li><strong>الإدارة:</strong> عشان الموقع يشتغل بسرعة على السيرفر.</li>
+    </ul>
+    <p class="text-xl text-gray-800 mb-4">مثال: موقع نون بيعرض المنتجات (فرونت) ويحفظ طلباتك (بك إند).</p>
+    <img src="https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=800" alt="شاب بيبرمج موقع ويب" loading="lazy">
+  </section>
+
+  <!-- Slide 3: Front-End Development -->
+  <section class="slide" id="slide3">
+    <h2 class="text-6xl font-bold mb-6">إيه هو الفرونت إند؟</h2>
+    <p class="text-2xl text-gray-800 mb-4">الجزء الحلو اللي بتشوفه: الألوان، الأزرار، والحركات في الموقع.</p>
+    <ul class="text-2xl text-gray-800 list-disc list-inside mb-4">
+      <li><strong>HTML:</strong> زي الهيكل بتاع البيت، يعني العناوين والفقرات.</li>
+      <li><strong>CSS:</strong> الديكور، زي الألوان والخطوط.</li>
+      <li><strong>JavaScript:</strong> الحركة، زي لما تضغط زرار ويحصل حاجة.</li>
+      <li><strong>أدوات زي React:</strong> عشان تبني واجهات زي المحترفين.</li>
+    </ul>
+    <p class="text-xl text-gray-800 mb-4">مثال: صفحة تسجيل دخول بتتحرك وبتقولك لو كتبت حاجة غلط.</p>
+    <img src="https://images.pexels.com/photos/1181359/pexels-photo-1181359.jpeg?auto=compress&cs=tinysrgb&w=800" alt="واجهة موقع أنيقة" loading="lazy">
+  </section>
+
+  <!-- Slide 4: Back-End Development -->
+  <section class="slide" id="slide4">
+    <h2 class="text-6xl font-bold mb-6">إيه هو البك إند؟</h2>
+    <p class="text-2xl text-gray-800 mb-4">الدماغ بتاعة الموقع: بيدير البيانات والحاجات اللي بتحصل ورا الكواليس.</p>
+    <ul class="text-2xl text-gray-800 list-disc list-inside mb-4">
+      <li><strong>لغات زي Python:</strong> عشان تكتبي الكود اللي يخلّي الموقع يشتغل.</li>
+      <li><strong>قواعد بيانات:</strong> زي MySQL عشان تحفظي بيانات العملاء.</li>
+      <li><strong>API:</strong> عشان الفرونت والبك إند يتكلموا مع بعض.</li>
+      <li><strong>أمان:</strong> عشان تحمي البيانات من السرقة.</li>
+    </ul>
+    <p class="text-xl text-gray-800 mb-4">مثال: لما تشتري حاجة أونلاين، البك إند بيحفظ طلبك ويبعتلك إيميل.</p>
+    <img src="https://images.pexels.com/photos/1595385/pexels-photo-1595385.jpeg?auto=compress&cs=tinysrgb&w=800" alt="سيرفر بيشتغل" loading="lazy">
+  </section>
+
+  <!-- Slide 5: Full-Stack Development -->
+  <section class="slide" id="slide5">
+    <h2 class="text-6xl font-bold mb-6">إيه هو Full-Stack؟</h2>
+    <p class="text-2xl text-gray-800 mb-4">يعني إنك بتعرفي تعملي كل حاجة: الفرونت إند والبك إند مع بعض!</p>
+    <ul class="text-2xl text-gray-800 list-disc list-inside mb-4">
+      <li><strong>مهارات كتير:</strong> تصميم الصفحة وبرمجة السيرفر.</li>
+      <li><strong>أدوات زي Git:</strong> عشان تتحكمي في الكود.</li>
+      <li><strong>تحدي:</strong> لازم تبقي فاهمة كل حاجة.</li>
+      <li><strong>ميزة:</strong> الشركات بتحب المطورين دول جدًا!</li>
+    </ul>
+    <p class="text-xl text-gray-800 mb-4">مثال: تطبيق زي Talabat، من عرض الأكل لتوصيله، كله Full-Stack.</p>
+    <img src="https://images.pexels.com/photos/3184297/pexels-photo-3184297.jpeg?auto=compress&cs=tinysrgb&w=800" alt="مطور Full-Stack بيشتغل" loading="lazy">
+  </section>
+
+  <!-- Slide 6: Why It Matters -->
+  <section class="slide" id="slide6">
+    <h2 class="text-6xl font-bold mb-6">ليه تطوير الويب مهم؟</h2>
+    <p class="text-2xl text-gray-800 mb-4">عشان هو اللي بيخلّي الدنيا متصلة! من مواقع التسوق للتطبيقات اللي بنستخدمها.</p>
+    <ul class="text-2xl text-gray-800 list-disc list-inside mb-4">
+      <li><strong>يوصّل الناس:</strong> زي إكس أو يوتيوب.</li>
+      <li><strong>تسوق أونلاين:</strong> زي نون وسوق.كوم.</li>
+      <li><strong>تعليم:</strong> زي منصات كورسيرا.</li>
+      <li><strong>وظايف:</strong> المجال ده مليان فرص!</li>
+    </ul>
+    <p class="text-xl text-gray-800 mb-4">نصيحة: خلّي مشروعكم سهل وسريع عشان الناس تحبه!</p>
+    <img src="https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=800" alt="ناس بتستخدم مواقع ويب" loading="lazy">
+  </section>
+
+  <!-- Slide 7: Interactive Questions -->
+  <section class="slide" id="slide7">
+    <h2 class="text-6xl font-bold mb-6">اسألي واتناقشي!</h2>
+    <p class="text-2xl text-gray-800 mb-4">اضغطي على سؤال وشوفي الإجابة، يلا نتناقش!</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-3xl">
+      <div class="interactive-question p-6 rounded-lg bg-gray-100" data-answer="الفرونت إند هو الشكل اللي بتشوفيه زي الأزرار والصور، والبك إند هو اللي بيخلّي الموقع يشتغل زي حفظ بياناتك.">
+        <p class="text-2xl font-medium">إيه الفرق بين الفرونت والبك إند؟</p>
+      </div>
+      <div class="interactive-question p-6 rounded-lg bg-gray-100" data-answer="كل لغة ليها مميزاتها! JavaScript كويسة للفرونت والبك إند، وPython سهلة للبك إند. جربي اللي تحبيها!">
+        <p class="text-2xl font-medium">إيه أحسن لغة لتطوير الويب؟</p>
+      </div>
+      <div class="interactive-question p-6 rounded-lg bg-gray-100" data-answer="جربي React للفرونت إند، Django للبك إند، وGit عشان تتحكمي في الكود. كمان VS Code محرر كود تحفة!">
+        <p class="text-2xl font-medium">إيه الأدوات اللي نستخدمها في مشروع التخرج؟</p>
+      </div>
+      <div class="interactive-question p-6 rounded-lg bg-gray-100" data-answer="خلّي الموقع سهل وبسيط، استخدمي أدوات زي Lighthouse عشان تتأكدي إنه سريع، ودايمًا اختبري كودك!">
+        <p class="text-2xl font-medium">إزاي نعمل مشروع ويب ناجح؟</p>
+      </div>
+      <div class="interactive-question p-6 rounded-lg bg-gray-100" data-answer="استخدمي HTTPS، خلّي كلمات السر مشفرة، وتأكدي إن البيانات محمية. جربي أدوات زي OWASP عشان تتأكدي إن الموقع أمان!">
+        <p class="text-2xl font-medium">إزاي نحمي الموقع من الهكرز؟</p>
+      </div>
+    </div>
+    <img src="https://images.pexels.com/photos/3184296/pexels-photo-3184296.jpeg?auto=compress&cs=tinysrgb&w=800" alt="فريق بيناقش أفكار" loading="lazy">
+  </section>
+
+  <!-- Slide 8: Closing -->
+  <section class="slide" id="slide8">
+    <h2 class="text-6xl font-bold mb-6">شكرًا يا شباب!</h2>
+    <p class="text-4xl text-gray-800 mb-4">يلا نبني الويب سوا ونعمل حاجات عظمة!</p>
+    <p class="text-2xl text-gray-800 mb-4">ابدأوا دلوقتي، جربوا VS Code وGitHub، وخلّيكم مبدعين!</p>
+    <p class="text-2xl text-gray-800 mb-4">للتواصل: <a href="mailto:your.email@example.com" class="text-blue-600 hover:underline">abdelhmidibrahim2@gmail.com</a></p>
+    <div class="flex justify-center space-x-8">
+      <a href="https://linkedin.com/in/yourprofile" class="text-blue-600 hover:text-blue-800 text-2xl font-medium">لينكدإن</a>
+      <a href="https://github.com/yourprofile" class="text-blue-600 hover:text-blue-800 text-2xl font-medium">جيت هب</a>
+    </div>
+    <img src="https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=800" alt="فريق شباب مبسوط" loading="lazy">
+  </section>
+
+  <!-- Modal for Answers -->
+  <div class="modal-overlay" id="modalOverlay"></div>
+  <div class="answer-modal" id="answerModal">
+    <p id="modalContent" class="text-2xl text-gray-800"></p>
+    <button onclick="closeModal()" class="cta-button text-white py-2 px-6 mt-4 rounded-full font-medium text-xl">إغلاق</button>
+  </div>
+
+  <script>
+    // Lazy load images and handle errors
+    document.querySelectorAll('img').forEach(img => {
+      img.addEventListener('error', () => {
+        img.src = 'https://via.placeholder.com/400x200?text=Image+Not+Found';
+        img.alt = 'صورة غير متوفرة';
+      });
+    });
+
+    // Add visible class to slides when they come into view
+    const slides = document.querySelectorAll('.slide');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.3 });
+
+    slides.forEach(slide => observer.observe(slide));
+
+    // Fallback for older browsers
+    if (!('IntersectionObserver' in window)) {
+      slides.forEach(slide => slide.classList.add('visible'));
+    }
+
+    // Interactive Questions Modal
+    const questions = document.querySelectorAll('.interactive-question');
+    const modal = document.getElementById('answerModal');
+    const modalContent = document.getElementById('modalContent');
+    const modalOverlay = document.getElementById('modalOverlay');
+
+    questions.forEach(question => {
+      question.addEventListener('click', () => {
+        modalContent.textContent = question.getAttribute('data-answer');
+        modal.classList.add('show');
+        modalOverlay.classList.add('show');
+      });
+    });
+
+    function closeModal() {
+      modal.classList.remove('show');
+      modalOverlay.classList.remove('show');
+    }
+
+    // Close modal when clicking outside
+    modalOverlay.addEventListener('click', closeModal);
+  </script>
